@@ -1,0 +1,159 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local RInjec = Instance.new("TextLabel")
+local Welcome = Instance.new("TextLabel")
+local ImageLabel = Instance.new("ImageLabel")
+
+
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.IgnoreGuiInset = true
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BackgroundTransparency = 1
+Frame.BorderSizePixel = 0
+Frame.Size = UDim2.new(1, 0, 1, 0)
+Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+
+RInjec.Name = "RInjec"
+RInjec.Parent = Frame
+RInjec.BackgroundTransparency = 1
+RInjec.Size = UDim2.new(0, 358, 0, 73)
+RInjec.AnchorPoint = Vector2.new(0.5, 0.5)
+RInjec.Position = UDim2.new(0.5, 0, 0.4, 0)
+RInjec.Font = Enum.Font.GothamBold
+RInjec.Text = "RANKALF INJECTED"
+RInjec.TextColor3 = Color3.fromRGB(255, 255, 255)
+RInjec.TextTransparency = 1
+RInjec.TextScaled = true
+RInjec.TextSize = 23
+RInjec.TextStrokeTransparency = 0.7
+RInjec.TextWrapped = true
+
+Welcome.Name = "Welcome"
+Welcome.Parent = Frame
+Welcome.BackgroundTransparency = 1
+Welcome.Size = UDim2.new(0, 358, 0, 73)
+Welcome.AnchorPoint = Vector2.new(0.5, 0.5)
+Welcome.Position = UDim2.new(0.5, 0, 0.5, 0)
+Welcome.Font = Enum.Font.GothamBold
+Welcome.Text = "Have Fun Using Rankalf!"
+Welcome.TextColor3 = Color3.fromRGB(255, 255, 255)
+Welcome.TextTransparency = 1
+Welcome.TextSize = 31
+Welcome.TextStrokeTransparency = 0.7
+Welcome.TextWrapped = true
+
+ImageLabel.Parent = Frame
+ImageLabel.BackgroundTransparency = 1
+ImageLabel.Size = UDim2.new(0, 195, 0, 100)
+ImageLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+ImageLabel.Position = UDim2.new(0.5, 0, 0.3, 0)
+ImageLabel.Image = "http://www.roblox.com/asset/?id=9695653110"
+ImageLabel.ImageTransparency = 1
+ImageLabel.ScaleType = Enum.ScaleType.Fit
+
+local function animateGUI()
+	
+	local frameTween = TweenService:Create(
+		Frame,
+		TweenInfo.new(0.7, Enum.EasingStyle.Quad),
+		{BackgroundTransparency = 0.3}
+	)
+	frameTween:Play()
+	frameTween.Completed:Wait()
+
+	
+	local originalRInjecPos = RInjec.Position
+	local originalWelcomePos = Welcome.Position
+
+	
+	RInjec.Position = UDim2.new(
+		originalRInjecPos.X.Scale, originalRInjecPos.X.Offset,
+		originalRInjecPos.Y.Scale + 0.05, originalRInjecPos.Y.Offset
+	)
+	Welcome.Position = UDim2.new(
+		originalWelcomePos.X.Scale, originalWelcomePos.X.Offset,
+		originalWelcomePos.Y.Scale + 0.05, originalWelcomePos.Y.Offset
+	)
+
+	
+	wait(0.3)
+	local rInjecTween = TweenService:Create(
+		RInjec,
+		TweenInfo.new(0.8, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0),
+		{Position = originalRInjecPos, TextTransparency = 0}
+	)
+	rInjecTween:Play()
+
+	
+	wait(0.5)
+	local welcomeTween = TweenService:Create(
+		Welcome,
+		TweenInfo.new(0.8, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0),
+		{Position = originalWelcomePos, TextTransparency = 0}
+	)
+	welcomeTween:Play()
+
+	
+	wait(0.8)
+	local imageTween = TweenService:Create(
+		ImageLabel,
+		TweenInfo.new(1, Enum.EasingStyle.Quad),
+		{ImageTransparency = 0}
+	)
+	imageTween:Play()
+end
+
+local function fadeOutGUI()
+	
+	local frameFade = TweenService:Create(
+		Frame,
+		TweenInfo.new(1, Enum.EasingStyle.Quad),
+		{BackgroundTransparency = 1}
+	)
+
+	local textFade = TweenService:Create(
+		RInjec,
+		TweenInfo.new(1, Enum.EasingStyle.Quad),
+		{TextTransparency = 1}
+	)
+
+	local welcomeFade = TweenService:Create(
+		Welcome,
+		TweenInfo.new(1, Enum.EasingStyle.Quad),
+		{TextTransparency = 1}
+	)
+
+	local imageFade = TweenService:Create(
+		ImageLabel,
+		TweenInfo.new(1, Enum.EasingStyle.Quad),
+		{ImageTransparency = 1}
+	)
+
+	
+	frameFade:Play()
+	textFade:Play()
+	welcomeFade:Play()
+	imageFade:Play()
+
+	
+	frameFade.Completed:Wait()
+	ScreenGui:Destroy()
+end
+
+
+animateGUI()
+wait(3)  
+fadeOutGUI()
